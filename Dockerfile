@@ -26,4 +26,4 @@ COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENV DOCKER_MCP_IN_CONTAINER=1
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["--transport", "streaming", "--port", "8811"]
+CMD ["gateway", "run"]
