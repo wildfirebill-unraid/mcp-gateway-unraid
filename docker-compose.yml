@@ -3,7 +3,7 @@ services:
   # AI clients connect here. The gateway proxies to MCP server containers.
   # Accessible on LAN at http://<unraid-ip>:8811/mcp (streaming transport)
   gateway:
-    image: docker/mcp-gateway:latest
+    image: ghcr.io/wildfirebill-unraid/mcp-gateway-unraid:latest
     container_name: unraid-mcp-gateway
     restart: unless-stopped
     # Enable the profiles feature for profile-based management

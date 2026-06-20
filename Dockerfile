@@ -22,5 +22,8 @@ RUN apk update && apk upgrade --no-cache && apk add --no-cache docker-cli socat 
 RUN mkdir -p /misc /config /secrets
 COPY --from=builder /docker-mcp /
 COPY --from=bridge-builder /docker-mcp-bridge /misc/
+COPY scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 ENV DOCKER_MCP_IN_CONTAINER=1
-ENTRYPOINT ["/docker-mcp", "gateway", "run"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["--transport", "streaming", "--port", "8811"]
