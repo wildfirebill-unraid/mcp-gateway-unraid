@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>MCPGateway</Name>
-  <Description>
-    Docker MCP Gateway for Unraid.
-    A unified API gateway that runs MCP (Model Context Protocol) servers
-    as Docker containers and exposes them to AI clients on your LAN.
-  </Description>
+  <Repository>ghcr.io/wildfirebill-unraid/mcp-gateway-unraid:20260620</Repository>
+  <Registry>ghcr.io/wildfirebill-unraid/mcp-gateway-unraid:latest</Registry>
+  <Network>wildfire</Network>
+  <MyIP>172.18.255.80</MyIP>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/wildfirebill-unraid/mcp-gateway-unraid/issues</Support>
+  <Project>https://github.com/wildfirebill-unraid/mcp-gateway-unraid</Project>
   <Overview>
     The MCP Gateway allows AI agents (Claude Desktop, VS Code, Cursor, etc.)
     to access MCP tools running in Docker containers. All communication stays
@@ -19,13 +21,10 @@
     • Works with Claude Desktop, VS Code, Cursor, and any MCP client
   </Overview>
   <Category>Tools:Utilities</Category>
-  <TemplateURL>https://github.com/wildfirebill/mcp-gateway-unraid</TemplateURL>
+  <TemplateURL>https://github.com/wildfirebill-unraid/mcp-gateway-unraid</TemplateURL>
   <Icon>https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/png/docker.png</Icon>
   <Platform>linux</Platform>
-  <Registry>ghcr.io/wildfirebill-unraid/mcp-gateway-unraid:latest</Registry>
-  <Support>https://github.com/docker/mcp-gateway/issues</Support>
   <Networking>
-    <Mode>bridge</Mode>
     <Publish>
       <Port>
         <HostPort>8811</HostPort>
