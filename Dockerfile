@@ -1,19 +1,19 @@
 # ─── MCP Gateway for Unraid - Build from source ──────────────────────
 # Use this Dockerfile if docker/mcp-gateway is unavailable on Docker Hub.
-# Based on the official docker/mcp-gateway build.
+# Clones and builds from the official docker/mcp-gateway repo.
 # =========================================================================
 
 # Stage 1: Build the gateway binary
-FROM golang:1.25-alpine AS builder
+FROM golang:1.24-alpine AS builder
 RUN apk add --no-cache git
-WORKDIR /app
-COPY . .
+RUN git clone --depth 1 https://github.com/docker/mcp-gateway.git /src
+WORKDIR /src
 RUN go build -trimpath -ldflags "-s -w" -o /docker-mcp ./cmd/docker-mcp/
 
 # Stage 2: Build the bridge tool
-FROM golang:1.25-alpine AS bridge-builder
-WORKDIR /app
-COPY . .
+FROM golang:1.24-alpine AS bridge-builder
+COPY --from=builder /src /src
+WORKDIR /src
 RUN go build -trimpath -ldflags "-s -w" -o /docker-mcp-bridge ./tools/docker-mcp-bridge/
 
 # Stage 3: Minimal runtime image
