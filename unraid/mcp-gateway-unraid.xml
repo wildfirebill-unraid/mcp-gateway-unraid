@@ -22,7 +22,7 @@
   <TemplateURL>https://github.com/wildfirebill/mcp-gateway-unraid</TemplateURL>
   <Icon>https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/png/docker.png</Icon>
   <Platform>linux</Platform>
-  <Registry>docker/mcp-gateway:latest</Registry>
+  <Registry>ghcr.io/wildfirebill-unraid/mcp-gateway-unraid:latest</Registry>
   <Support>https://github.com/docker/mcp-gateway/issues</Support>
   <Networking>
     <Mode>bridge</Mode>
