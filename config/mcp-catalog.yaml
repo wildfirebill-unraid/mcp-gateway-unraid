@@ -1,0 +1,29 @@
+# Local MCP Catalog for offline / air-gapped use
+# ================================================
+# If you have internet access, you don't need this file.
+# The gateway uses the online Docker MCP Catalog by default.
+#
+# To use this catalog, set GATEWAY_CATALOG=mcp-catalog.yaml
+# or pass --catalog=/config/mcp-catalog.yaml to the gateway.
+#
+# Server definitions can reference:
+#   docker://image:tag          - Docker image
+#   catalog://org/catalog/srv   - Reference from another catalog
+#   file://./path/to/srv.yaml   - Local file
+#
+# Example servers you can define:
+#
+# servers:
+#   fetch:
+#     description: "Make HTTP requests to fetch URLs"
+#     image: "docker://mcp/fetch"
+#
+#   filesystem:
+#     description: "Access the filesystem"
+#     image: "docker://mcp/filesystem"
+#     config:
+#       allowedPaths: ["/data"]
+#
+#   duckduckgo:
+#     description: "Web search via DuckDuckGo"
+#     image: "docker://mcp/duckduckgo"

@@ -1,0 +1,63 @@
+services:
+  # ─── MCP Gateway ────────────────────────────────────────────────────
+  # AI clients connect here. The gateway proxies to MCP server containers.
+  # Accessible on LAN at http://<unraid-ip>:8811/mcp (streaming transport)
+  gateway:
+    image: docker/mcp-gateway:latest
+    container_name: unraid-mcp-gateway
+    restart: unless-stopped
+    # Enable the profiles feature for profile-based management
+    # Set DOCKER_MCP_IN_CONTAINER=1 to bypass Docker Desktop checks
+    environment:
+      DOCKER_MCP_IN_CONTAINER: "1"
+      # Transport: stdio, sse, or streaming.
+      # streaming = SSE + HTTP POST for client→server messages (recommended for LAN)
+      # sse       = Server-Sent Events transport
+      GATEWAY_TRANSPORT: "${GATEWAY_TRANSPORT:-streaming}"
+      GATEWAY_PORT: "${GATEWAY_PORT:-8811}"
+      GATEWAY_MEMORY: "${GATEWAY_MEMORY:-2Gb}"
+      GATEWAY_CPUS: "${GATEWAY_CPUS:-1}"
+      GATEWAY_LOG_CALLS: "${GATEWAY_LOG_CALLS:-true}"
+      GATEWAY_VERBOSE: "${GATEWAY_VERBOSE:-false}"
+      GATEWAY_VERIFY_SIGNATURES: "${GATEWAY_VERIFY_SIGNATURES:-false}"
+      GATEWAY_BLOCK_NETWORK: "${GATEWAY_BLOCK_NETWORK:-false}"
+
+    # Build from source if image is not available on Docker Hub
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+
+    ports:
+      # Map gateway port to host. AI clients connect to unraid-ip:8811
+      - "${GATEWAY_PORT:-8811}:${GATEWAY_PORT:-8811}"
+
+    volumes:
+      # Docker socket - required for gateway to launch MCP server containers
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Mount a local catalog for offline use (optional)
+      - ./config:/config:ro
+      # Mount secrets from .env file (optional)
+      - ./secrets:/secrets:ro
+
+    command:
+      - --transport=${GATEWAY_TRANSPORT:-streaming}
+      - --port=${GATEWAY_PORT:-8811}
+      - --servers=${GATEWAY_SERVERS:-fetch,duckduckgo}
+      - --memory=${GATEWAY_MEMORY:-2Gb}
+      - --cpus=${GATEWAY_CPUS:-1}
+      - --secrets=${GATEWAY_SECRETS:-/secrets/.env}
+      - --log-calls=${GATEWAY_LOG_CALLS:-true}
+      - --verbose=${GATEWAY_VERBOSE:-false}
+      - --verify-signatures=${GATEWAY_VERIFY_SIGNATURES:-false}
+
+    healthcheck:
+      test: ["CMD", "wget", "-O-", "http://localhost:${GATEWAY_PORT:-8811}/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+    labels:
+      - "app=mcp-gateway"
+      - "description=Docker MCP Gateway for Unraid"
+      - "io.docker.compose.project=mcp-gateway"

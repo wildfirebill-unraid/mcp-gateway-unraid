@@ -1,0 +1,25 @@
+# ─── Docker Compose Override for Docker Desktop Testing ───────────────
+# This override adds a test client container for verifying the gateway.
+# Usage: docker compose -f docker-compose.yml -f docker-compose.override.yml up
+# =========================================================================
+
+services:
+  # Python test client that lists available MCP tools
+  test-client:
+    profiles: ["test"]
+    build:
+      context: ./examples/python-client
+      dockerfile_inline: |
+        FROM python:3.12-alpine
+        COPY requirements.txt /tmp/
+        RUN pip install -r /tmp/requirements.txt
+        COPY client.py /app/client.py
+        WORKDIR /app
+        ENTRYPOINT ["python", "client.py"]
+    environment:
+      GATEWAY_URL: "http://gateway:${GATEWAY_PORT:-8811}/mcp"
+    depends_on:
+      gateway:
+        condition: service_healthy
+    command: ["http://gateway:${GATEWAY_PORT:-8811}/mcp"]
+    profiles: ["test"]
