@@ -47,7 +47,7 @@ if [ -n "$GATEWAY_CATALOG" ]; then
       cp "$catalog" "$CATALOGS_DIR/"
       set -- "$@" --catalog "$(basename "$catalog")"
     else
-      set -- "$@" --catalog "$catalog"
+      echo "[entrypoint] WARNING: Catalog file '$catalog' not found — check mount paths"
     fi
   done
   IFS="$OLD_IFS"
@@ -65,6 +65,7 @@ resolve_config() {
   CONFIG_SERVERS="${CONFIG_SERVERS} ${server}"
 }
 write_config() {
+  mkdir -p "$CATALOGS_DIR"
   local servers_sorted
   servers_sorted=$(echo "${CONFIG_SERVERS}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
   if [ -n "$servers_sorted" ]; then
