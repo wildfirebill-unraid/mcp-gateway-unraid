@@ -192,13 +192,20 @@ Set via `GATEWAY_SERVERS=fetch,duckduckgo,filesystem,github-official`.
 
 ## Adding Custom MCP Servers
 
-Beyond the catalog, the gateway supports three approaches for adding your own MCP servers.
+Beyond the catalog, the gateway supports three approaches for adding your own MCP servers. Below each approach shows both **Docker Compose** and **Unraid web UI** configuration.
+
+> **Unraid appdata convention:** Place custom YAML files in `/mnt/user/appdata/mcp-gateway/` so they persist across container updates.
 
 ### Option 1: Custom `catalog.yaml` (recommended)
 
 Create a full catalog file that mixes Docker catalog servers with your own, then mount it into the container.
 
-**1. Create `catalog.yaml`:**
+**1. Create `catalog.yaml` on your Unraid server:**
+
+```bash
+mkdir -p /mnt/user/appdata/mcp-gateway
+nano /mnt/user/appdata/mcp-gateway/catalog.yaml
+```
 
 For a **container-based** server (Docker image the gateway spawns):
 
@@ -236,7 +243,7 @@ For an **HTTP-based** server (already running elsewhere on your network):
     url: "http://host.docker.internal:3000/mcp"
 ```
 
-**2. Mount the catalog and update `docker-compose.yml`:**
+**2a. Docker Compose — mount the catalog:**
 
 ```yaml
 services:
@@ -244,13 +251,22 @@ services:
     image: ghcr.io/wildfirebill-unraid/mcp-gateway-unraid:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./catalog.yaml:/mcp/catalog.yaml:ro     # <-- mount custom catalog
+      - ./catalog.yaml:/mcp/catalog.yaml:ro
     command:
-      - --catalog=/mcp/catalog.yaml              # <-- use it
+      - --catalog=/mcp/catalog.yaml
       - --servers=fetch,duckduckgo,my-custom-server
       - --transport=streaming
       - --port=8811
 ```
+
+**2b. Unraid web UI — mount the catalog:**
+
+In the gateway container's edit view, add:
+
+| Field | Value |
+|---|---|
+| **Extra Parameters** | `--catalog=/mcp/catalog.yaml --servers=fetch,duckduckgo,my-custom-server` |
+| **Path / Volume** | Container Path: `/mcp/catalog.yaml` ← Host Path: `/mnt/user/appdata/mcp-gateway/catalog.yaml` (read-only) |
 
 The gateway spawns `my-custom-server` as a sibling container just like catalog servers — same resource limits, secrets injection, and lifecycle management.
 
@@ -258,7 +274,12 @@ The gateway spawns `my-custom-server` as a sibling container just like catalog s
 
 Define a single server in a YAML file and reference it directly with `--server file://`.
 
-**1. Create `my-server.yaml`:**
+**1. Create `my-server.yaml` on your Unraid server:**
+
+```bash
+mkdir -p /mnt/user/appdata/mcp-gateway
+nano /mnt/user/appdata/mcp-gateway/my-server.yaml
+```
 
 ```yaml
 registry:
@@ -282,7 +303,7 @@ registry:
         required: ["my_key"]
 ```
 
-**2. Mount and reference in `docker-compose.yml`:**
+**2a. Docker Compose — mount and reference:**
 
 ```yaml
 services:
@@ -298,29 +319,28 @@ services:
       - --port=8811
 ```
 
+**2b. Unraid web UI — mount and reference:**
+
+In the gateway container's edit view, add:
+
+| Field | Value |
+|---|---|
+| **Extra Parameters** | `--server=file:///servers/my-server.yaml --servers=fetch,duckduckgo,my-dev-server` |
+| **Path / Volume** | Container Path: `/servers/my-server.yaml` ← Host Path: `/mnt/user/appdata/mcp-gateway/my-server.yaml` (read-only) |
+
 The `--server file://` flag can be repeated and mixed with catalog servers.
 
 ### Option 3: Companion Container
 
-Run your MCP server as its own container alongside the gateway. Connect clients directly to it (bypassing the gateway).
+Run your MCP server as its own container alongside the gateway (separate container in Unraid's Docker tab). Connect clients directly to it, bypassing the gateway.
 
-**Add to `docker-compose.yml`:**
+**In Unraid web UI — add a new container:**
 
-```yaml
-services:
-  gateway:
-    image: ghcr.io/wildfirebill-unraid/mcp-gateway-unraid:latest
-    # ... existing gateway config ...
-
-  my-local-server:
-    image: my-org/custom-mcp-server:v1
-    container_name: unraid-mcp-local
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      - API_KEY=sk-custom-server-key-abc123
-```
+1. Go to **Docker → Add Container**
+2. Set **Repository** to `my-org/custom-mcp-server:v1`
+3. Set a fixed **Container Port** mapping (e.g. `3000:3000`)
+4. Add `API_KEY=sk-custom-server-key-abc123` in **Environment Variables**
+5. Click **Apply**
 
 **Connect your AI client to the companion directly:**
 
