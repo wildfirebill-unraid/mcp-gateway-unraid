@@ -8,6 +8,16 @@
 
 Run a [Model Context Protocol (MCP)](https://spec.modelcontextprotocol.io/) Gateway on **Unraid** to let AI agents — Claude Desktop, VS Code, Cursor, and any MCP-compatible client — securely access Docker-hosted MCP tools across your LAN. Built from the official [docker/mcp-gateway](https://github.com/docker/mcp-gateway) source.
 
+### Verified on Unraid
+
+| Test | Result |
+|------|--------|
+| `/health` endpoint | HTTP 200 |
+| MCP `initialize` | Docker AI MCP Gateway v2.0.1 — `tools`, `prompts`, `resources` capabilities confirmed |
+| `tools/list` | 8 built-in tools: `code-mode`, `mcp-activate-profile`, `mcp-add`, `mcp-config-set`, `mcp-create-profile`, `mcp-exec`, `mcp-find`, `mcp-remove` |
+| Auth token auth | Bearer token required and enforced |
+| Streaming transport | SSE + HTTP POST — session-based bidirectional messaging |
+
 ### Who Is This For
 
 - **Unraid users** who want AI agent capabilities on their home server

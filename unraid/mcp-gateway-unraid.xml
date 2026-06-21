@@ -8,35 +8,15 @@
   <Privileged>false</Privileged>
   <Support>https://github.com/wildfirebill-unraid/mcp-gateway-unraid/issues</Support>
   <Project>https://github.com/wildfirebill-unraid/mcp-gateway-unraid</Project>
-  <Overview>
-    The MCP Gateway allows AI agents (Claude Desktop, VS Code, Cursor, etc.)
-    to access MCP tools running in Docker containers. All communication stays
-    within your local network — no data leaves your LAN.
-
-    Features:
-    • Run MCP servers as isolated Docker containers
-    • Single endpoint for multiple MCP tools
-    • Secrets management via .env files
-    • No internet required once configured
-    • Works with Claude Desktop, VS Code, Cursor, and any MCP client
-  </Overview>
+  <Overview>The MCP Gateway allows AI agents (Claude Desktop, VS Code, Cursor, etc.) to access MCP tools running in Docker containers. All communication stays within your local network — no data leaves your LAN. Features: • Run MCP servers as isolated Docker containers • Single endpoint for multiple MCP tools • Secrets management via .env files • No internet required once configured • Works with Claude Desktop, VS Code, Cursor, and any MCP client</Overview>
   <Category>Tools:Utilities</Category>
   <TemplateURL>https://github.com/wildfirebill-unraid/mcp-gateway-unraid/blob/577cb331eca8ca3e828da051bc9066271fbdf11b/unraid/mcp-gateway-unraid.xml</TemplateURL>
   <Icon>https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/png/docker.png</Icon>
   <Platform>linux</Platform>
   <Support>https://github.com/docker/mcp-gateway/issues</Support>
-  <Networking>
-    <Publish>
-      <Port>
-        <HostPort>8811</HostPort>
-        <ContainerPort>8811</ContainerPort>
-        <Protocol>tcp</Protocol>
-      </Port>
-    </Publish>
-  </Networking>
   <Config Name="App Port" Target="8811" Default="8811" Mode="tcp" Description="Port the gateway listens on for MCP connections" Type="Port" Display="always" Required="false" Mask="false">8811</Config>
   <Config Name="Transport" Target="GATEWAY_TRANSPORT" Default="streaming" Mode="tcp" Description="Transport protocol: stdio, sse, or streaming (streaming recommended for LAN use)" Type="Variable" Display="always" Required="false" Mask="false">streaming</Config>
-  <Config Name="Auth Token" Target="MCP_GATEWAY_AUTH_TOKEN" Default="" Mode="tcp" Description="Bearer token for MCP endpoint authentication. Clients must send this as Authorization: Bearer <token>. If empty, a random token is generated on each container restart." Type="Variable" Display="always" Required="true" Mask="true"></Config>
+  <Config Name="Auth Token" Target="MCP_GATEWAY_AUTH_TOKEN" Default="" Mode="tcp" Description="Bearer token for MCP endpoint authentication. Clients must send this as Authorization: Bearer token. If empty, a random token is generated on each container restart." Type="Variable" Display="always" Required="true" Mask="true"></Config>
   <Config Name="MCP Servers" Target="GATEWAY_SERVERS" Default="fetch,duckduckgo" Mode="tcp" Description="Comma-separated list of MCP servers to enable. Options: fetch, duckduckgo, filesystem, github-official, postgres, slack, etc." Type="Variable" Display="always" Required="false" Mask="false">fetch,duckduckgo</Config>
   <Config Name="Memory Limit" Target="GATEWAY_MEMORY" Default="2Gb" Mode="tcp" Description="Memory limit per MCP server container (e.g. 512Mb, 1Gb, 2Gb)" Type="Variable" Display="always" Required="false" Mask="false">2Gb</Config>
   <Config Name="CPU Limit" Target="GATEWAY_CPUS" Default="1" Mode="tcp" Description="CPU cores per MCP server container" Type="Variable" Display="always" Required="false" Mask="false">1</Config>
