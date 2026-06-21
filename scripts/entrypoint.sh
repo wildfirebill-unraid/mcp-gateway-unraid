@@ -23,6 +23,18 @@ fi
 [ -n "$GATEWAY_MEMORY" ] && set -- "$@" --memory "$GATEWAY_MEMORY"
 [ -n "$GATEWAY_CPUS" ] && set -- "$@" --cpus "$GATEWAY_CPUS"
 [ "$GATEWAY_LOG_CALLS" = "true" ] && set -- "$@" --log-calls
+[ "$GATEWAY_VERBOSE" = "true" ] && set -- "$@" --verbose
 [ "$GATEWAY_VERIFY_SIGNATURES" = "true" ] && set -- "$@" --verify-signatures
+[ "$GATEWAY_BLOCK_NETWORK" = "true" ] && set -- "$@" --block-network
+
+# Support custom catalog files — comma-separated paths get their own --catalog flag
+if [ -n "$GATEWAY_CATALOG" ]; then
+  OLD_IFS="$IFS"
+  IFS=','
+  for catalog in $GATEWAY_CATALOG; do
+    set -- "$@" --catalog "$catalog"
+  done
+  IFS="$OLD_IFS"
+fi
 
 exec /docker-mcp "$@"
