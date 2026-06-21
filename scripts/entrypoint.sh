@@ -126,7 +126,7 @@ write_config() {
           ;;
       esac
     done
-    set -- "$@" --config "$(basename "$CONFIG_FILE")"
+    set -- "$@" --config "$CONFIG_FILE"
   fi
 }
 
