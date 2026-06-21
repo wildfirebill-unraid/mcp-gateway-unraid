@@ -14,7 +14,7 @@ Built from [docker/mcp-gateway](https://github.com/docker/mcp-gateway).
 ## Verified on Unraid
 
 | Test | Result |
-|------|--------|
+| ----- | ------- |
 | `/health` endpoint | HTTP 200 |
 | MCP `initialize` | Gateway v2.0.1 — tools, prompts, resources confirmed |
 | `tools/list` | 8 built-in tools (code-mode, mcp-add, mcp-find, etc.) |
@@ -160,7 +160,7 @@ docker run -d \
 ### Environment Variables
 
 | Variable | Default | Description |
-|---|---|---|
+| --- | --- | --- |
 | `MCP_GATEWAY_AUTH_TOKEN` | *(auto-generated)* | Bearer token for endpoint authentication. **Required** for persistent client access. |
 | `GATEWAY_TRANSPORT` | `streaming` | Transport protocol: `stdio`, `sse`, or `streaming` |
 | `GATEWAY_PORT` | `8811` | Port the gateway listens on |
@@ -190,7 +190,7 @@ To persist the same token across restarts, set `MCP_GATEWAY_AUTH_TOKEN` in your 
 The gateway uses the [Docker MCP Catalog](https://hub.docker.com/mcp) which includes:
 
 | Server | Description | Image |
-|---|---|---|
+| --- | --- | --- |
 | `fetch` | HTTP requests to fetch URLs | `docker/mcp-fetch` |
 | `duckduckgo` | Web search | `docker/mcp-duckduckgo` |
 | `filesystem` | Read/write access to mounted paths | `docker/mcp-filesystem` |
@@ -294,7 +294,7 @@ services:
 In the gateway container's edit view, add:
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | **Extra Parameters** | `--catalog=/mcp/catalog.yaml --servers=fetch,duckduckgo,my-custom-server` |
 | **Path / Volume** | Container Path: `/mcp/catalog.yaml` ← Host Path: `/mnt/user/appdata/mcp-gateway/catalog.yaml` (read-only) |
 
@@ -354,7 +354,7 @@ services:
 In the gateway container's edit view, add:
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | **Extra Parameters** | `--server=file:///servers/my-server.yaml --servers=fetch,duckduckgo,my-dev-server` |
 | **Path / Volume** | Container Path: `/servers/my-server.yaml` ← Host Path: `/mnt/user/appdata/mcp-gateway/my-server.yaml` (read-only) |
 
@@ -387,7 +387,7 @@ Run your MCP server as its own container alongside the gateway (separate contain
 **Trade-offs:**
 
 | Approach | Lifecycle managed by gateway | Secrets injection | Resource limits | Best for |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Custom catalog | ✅ | ✅ | ✅ | Servers you want fully managed |
 | `file://` definition | ✅ | ✅ | ✅ | Adding one-off servers to an existing setup |
 | Companion container | ❌ | ❌ (manual) | ❌ (manual) | Quick testing, HTTP-only servers, or when you can't containerize |
