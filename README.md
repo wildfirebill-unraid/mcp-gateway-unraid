@@ -33,7 +33,7 @@ Built from [docker/mcp-gateway](https://github.com/docker/mcp-gateway).
 - **Docker users** deploying MCP servers in isolated containers managed by
   a lightweight gateway
 
-```
+```text
 AI Client ──→ MCP Gateway (Unraid container, port 8811) ──→ MCP Servers (isolated containers)
 ```
 
@@ -194,7 +194,7 @@ The gateway enforces Bearer token authentication on all endpoints except `/healt
   container start (token changes on restart)
 - Clients send the token in the `Authorization` header:
 
-```
+```http
 Authorization: Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
 ```
 
@@ -492,7 +492,7 @@ In `.vscode/mcp.json`:
 
 ## Architecture
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────┐
 │  Unraid Server                                                    │
 │                                                                   │
