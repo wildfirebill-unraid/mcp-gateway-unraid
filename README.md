@@ -647,5 +647,3 @@ in place.
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
-
