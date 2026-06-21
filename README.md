@@ -192,7 +192,24 @@ Set via `GATEWAY_SERVERS=fetch,duckduckgo,filesystem,github-official`.
 
 ## Adding Custom MCP Servers
 
-Beyond the catalog, the gateway supports three approaches for adding your own MCP servers. Below each approach shows both **Docker Compose** and **Unraid web UI** configuration.
+Beyond the default `fetch` and `duckduckgo` servers, you can add any MCP server to the gateway. There are two categories:
+
+- **Catalog servers** — published in the [Docker MCP Catalog](https://hub.docker.com/mcp) (just add the name to `GATEWAY_SERVERS`)
+- **Custom servers** — any other MCP server (use one of the three options below)
+
+### Quick Example: Add the Filesystem Server (Unraid Web UI)
+
+This walks through adding the `filesystem` MCP server so your AI agent can read/write files on a Unraid share.
+
+1. Go to **Docker** → click the MCP Gateway container → **Edit**
+2. Find the **MCP Servers** (`GATEWAY_SERVERS`) variable
+3. Change it from `fetch,duckduckgo` to `fetch,duckduckgo,filesystem`
+4. Click **Apply** — the gateway restarts and spawns a filesystem container
+5. Your AI client can now use `read_file`, `write_file`, `list_directory` tools
+
+> All catalog servers work the same way: just add the server name to `GATEWAY_SERVERS`. See the [table below](#available-mcp-servers) for available servers.
+
+For servers **not** in the Docker MCP Catalog, use one of the three approaches below.
 
 > **Unraid appdata convention:** Place custom YAML files in `/mnt/user/appdata/mcp-gateway/` so they persist across container updates.
 
