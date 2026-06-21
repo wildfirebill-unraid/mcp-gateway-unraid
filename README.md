@@ -62,7 +62,7 @@ AI Client ──→ MCP Gateway (Unraid container, port 8811) ──→ MCP Serv
 - [Architecture](#architecture)
 - [Security](#security)
 - [Build from Source](#build-from-source)
-- [FAQ & Troubleshooting](#faq-troubleshooting)
+- [FAQ and Troubleshooting](#faq-and-troubleshooting)
 - [License](#license)
 
 ---
@@ -563,7 +563,7 @@ See the [open issues][issues] for current tasks.
 
 ---
 
-## FAQ / Troubleshooting
+## FAQ and Troubleshooting
 
 ### Why do I get a `401 Unauthorized` error?
 
