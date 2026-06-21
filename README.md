@@ -13,8 +13,8 @@ Run a [Model Context Protocol (MCP)](https://spec.modelcontextprotocol.io/) Gate
 | Test | Result |
 |------|--------|
 | `/health` endpoint | HTTP 200 |
-| MCP `initialize` | Docker AI MCP Gateway v2.0.1 — `tools`, `prompts`, `resources` capabilities confirmed |
-| `tools/list` | 8 built-in tools: `code-mode`, `mcp-activate-profile`, `mcp-add`, `mcp-config-set`, `mcp-create-profile`, `mcp-exec`, `mcp-find`, `mcp-remove` |
+| MCP `initialize` | Gateway v2.0.1 — tools, prompts, resources confirmed |
+| `tools/list` | 8 built-in tools (code-mode, mcp-add, mcp-find, etc.) |
 | Auth token auth | Bearer token required and enforced |
 | Streaming transport | SSE + HTTP POST — session-based bidirectional messaging |
 
