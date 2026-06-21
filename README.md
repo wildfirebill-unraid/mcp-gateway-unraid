@@ -3,8 +3,17 @@
 [![Docker build & publish](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/actions/workflows/docker-publish.yml)
 [![GitHub release](https://img.shields.io/github/v/tag/wildfirebill-unraid/mcp-gateway-unraid?label=release&sort=semver)](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/wildfirebill-unraid/mcp-gateway-unraid?style=social)](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/stargazers)
+[![GitHub contributors](https://img.shields.io/github/contributors/wildfirebill-unraid/mcp-gateway-unraid)](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/graphs/contributors)
 
 Run a [Model Context Protocol (MCP)](https://spec.modelcontextprotocol.io/) Gateway on **Unraid** to let AI agents — Claude Desktop, VS Code, Cursor, and any MCP-compatible client — securely access Docker-hosted MCP tools across your LAN. Built from the official [docker/mcp-gateway](https://github.com/docker/mcp-gateway) source.
+
+### Who Is This For
+
+- **Unraid users** who want AI agent capabilities on their home server
+- **Self-hosters** looking for a local, private MCP gateway instead of cloud-based AI tool access
+- **Developers** running Claude Desktop, VS Code, or Cursor who need Docker-hosted MCP tools on their LAN
+- **Docker users** deploying MCP servers in isolated containers managed by a lightweight gateway
 
 ```
 AI Client ──→ MCP Gateway (Unraid container, port 8811) ──→ MCP Servers (isolated containers)
@@ -437,17 +446,70 @@ This produces the same multi-stage build used in CI/CD and published to ghcr.io.
 
 ---
 
-## Troubleshooting
+## Contributing
 
-| Problem | Cause | Fix |
-|---|---|---|
-| `401 Unauthorized` | Missing or wrong auth token | Set `MCP_GATEWAY_AUTH_TOKEN` and pass `Authorization: Bearer <token>` |
-| `Docker Desktop is not running` | Missing `DOCKER_MCP_IN_CONTAINER` | Set `DOCKER_MCP_IN_CONTAINER=1` |
-| Gateway starts but tools fail | Docker socket not mounted | Mount `/var/run/docker.sock` |
-| Can't connect from another machine | Firewall blocking port 8811 | Allow port 8811 on Unraid firewall |
-| Secrets not loading | `.env` file not readable | Check `./secrets/.env` exists and has correct permissions |
-| Catalog pull failed at startup | Network not ready yet | Restart the container — catalog pull retries |
-| Token changed after restart | No `MCP_GATEWAY_AUTH_TOKEN` set | Set a fixed token in the Unraid template |
+Contributions are welcome! Here's how to help:
+
+1. **Report issues** — open a GitHub issue for bugs or feature requests
+2. **Submit PRs** — fork the repo, make changes, and open a pull request
+3. **Improve docs** — README updates, better examples, and troubleshooting tips are always appreciated
+
+See the [open issues](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/issues) for current tasks.
+
+---
+
+## FAQ / Troubleshooting
+
+### Why do I get a `401 Unauthorized` error?
+
+Your `MCP_GATEWAY_AUTH_TOKEN` is missing or doesn't match the client's `Authorization` header. Set a fixed token in the Unraid template and pass it as `Authorization: Bearer <token>` in every client request.
+
+### Why does the gateway say "Docker Desktop is not running"?
+
+This environment variable is missing. Set `DOCKER_MCP_IN_CONTAINER=1` on the container to tell the gateway it's running inside a Docker container on a Linux host (Unraid) rather than Docker Desktop.
+
+### The gateway starts but tools fail to run. Why?
+
+The Docker socket is not mounted. Mount `/var/run/docker.sock` so the gateway can create sibling MCP server containers.
+
+### I can't connect to the gateway from another machine on my network. What's wrong?
+
+Port 8811 is likely blocked by the Unraid firewall. Navigate to **Settings → Firewall** in Unraid and allow inbound TCP traffic on port 8811.
+
+### My secrets/API keys aren't being loaded. How do I fix this?
+
+Check that `./secrets/.env` exists, is readable, and follows the correct format (`KEY=VALUE` on each line). The file must be mounted into the container at `/secrets/.env`.
+
+### Why did the catalog pull fail at startup?
+
+The container started before your network interface was ready. Restart the container — the catalog pull is retried on each start.
+
+### Why did my auth token change after restarting the container?
+
+No `MCP_GATEWAY_AUTH_TOKEN` was set, so the gateway generated a random one. Set a fixed token in the Unraid template or `.env` file to keep it stable.
+
+### How do I add a custom MCP server that isn't in the Docker MCP catalog?
+
+See the [Adding Custom MCP Servers](#adding-custom-mcp-servers) section above for three approaches: custom `catalog.yaml`, `file://` definitions, or companion containers.
+
+### Can I run this without Docker Desktop?
+
+Yes — that's the point. Set `DOCKER_MCP_IN_CONTAINER=1` for Unraid and other non-Docker-Desktop Docker hosts.
+
+### Is the gateway exposed to the internet by default?
+
+No. It listens on the Unraid LAN interface (port 8811) by default. Do not port-forward this port unless you have additional security measures in place.
+
+---
+
+## Related Projects
+
+- [docker/mcp-gateway](https://github.com/docker/mcp-gateway) — the official upstream gateway this image builds from
+- [Docker MCP Toolkit & Catalog](https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/) — official Docker MCP catalog documentation
+- [Model Context Protocol](https://spec.modelcontextprotocol.io/) — the open standard this gateway implements
+- [Claude Desktop](https://claude.ai/download) — AI desktop client with MCP support
+- [VS Code MCP](https://code.visualstudio.com/docs/copilot/ai/mcp-servers) — using MCP servers in VS Code Copilot
+- [Unraid Community Apps](https://unraid.net/community/apps) — one-click install templates for Unraid
 
 ---
 
@@ -455,10 +517,4 @@ This produces the same multi-stage build used in CI/CD and published to ghcr.io.
 
 MIT — see [LICENSE](LICENSE).
 
-## References
 
-- [Docker MCP Gateway](https://github.com/docker/mcp-gateway) — official upstream project
-- [Docker MCP Toolkit & Catalog](https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/)
-- [Model Context Protocol Specification](https://spec.modelcontextprotocol.io/)
-- [Unraid](https://unraid.net)
-- [GitHub Container Registry](https://ghcr.io)

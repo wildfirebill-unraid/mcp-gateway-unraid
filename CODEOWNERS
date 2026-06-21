@@ -1,0 +1,14 @@
+# Default owner for all files
+* @wildfirebill-unraid
+
+# Docker & CI configuration
+Dockerfile @wildfirebill-unraid
+scripts/ @wildfirebill-unraid
+.github/ @wildfirebill-unraid
+
+# Unraid template
+unraid/ @wildfirebill-unraid
+
+# Documentation
+README.md @wildfirebill-unraid
+SECURITY.md @wildfirebill-unraid
