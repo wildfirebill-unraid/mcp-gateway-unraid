@@ -93,11 +93,25 @@ curl -H "Authorization: Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p
 
 > **Community Apps listing coming soon.** For now, install via the XML template in this repo.
 
-1. Download the template: [`unraid/mcp-gateway-unraid.xml`](unraid/mcp-gateway-unraid.xml)
-2. In Unraid, go to **Docker → Add Container → Template → Add Template**
-3. Select the downloaded XML file
-4. Set your **Auth Token** (`MCP_GATEWAY_AUTH_TOKEN` — required)
-5. Click **Apply**
+**Step 1 — Copy the template to your Unraid server:**
+
+```bash
+# From any machine on your LAN, copy the XML to Unraid's user templates folder:
+scp unraid/mcp-gateway-unraid.xml root@<unraid-ip>:/boot/config/plugins/dockerMan/templates-user/
+
+# Or download it directly on Unraid via the web terminal:
+cd /boot/config/plugins/dockerMan/templates-user/
+wget https://raw.githubusercontent.com/wildfirebill-unraid/mcp-gateway-unraid/main/unraid/mcp-gateway-unraid.xml
+```
+
+**Step 2 — Install from the Unraid web UI:**
+
+1. Go to **Docker → Add Container**
+2. Click **Template** → select **mcp-gateway-unraid** from the dropdown
+3. Set your **Auth Token** (`MCP_GATEWAY_AUTH_TOKEN` — required)
+4. Click **Apply**
+
+> The template is now listed alongside your other containers — no need to re-add it after reboots.
 
 ### Method 2: Docker Compose
 
