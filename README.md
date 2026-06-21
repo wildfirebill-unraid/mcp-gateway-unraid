@@ -48,8 +48,8 @@ git clone https://github.com/wildfirebill-unraid/mcp-gateway-unraid.git
 cd mcp-gateway-unraid
 cp .env.example .env
 
-# 2. Set your MCP_GATEWAY_AUTH_TOKEN in .env (required for LAN access)
-echo "MCP_GATEWAY_AUTH_TOKEN=your-secure-token-here" >> .env
+# 2. Set your MCP_GATEWAY_AUTH_TOKEN in .env
+echo "MCP_GATEWAY_AUTH_TOKEN=mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0" >> .env
 
 # 3. Start the gateway
 docker compose up -d
@@ -58,7 +58,7 @@ docker compose up -d
 curl http://localhost:8811/health
 
 # 5. Connect your AI agent
-curl -H "Authorization: Bearer your-secure-token-here" http://localhost:8811/mcp
+curl -H "Authorization: Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0" http://localhost:8811/mcp
 ```
 
 > Your AI clients connect to `http://<unraid-ip>:8811/mcp` with the `Authorization: Bearer <token>` header.
@@ -105,7 +105,7 @@ docker run -d \
   --name unraid-mcp-gateway \
   --restart unless-stopped \
   -e DOCKER_MCP_IN_CONTAINER=1 \
-  -e MCP_GATEWAY_AUTH_TOKEN=your-token \
+  -e MCP_GATEWAY_AUTH_TOKEN=mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0 \
   -e GATEWAY_SERVERS=fetch,duckduckgo \
   -p 8811:8811 \
   -v /var/run/docker.sock:/var/run/docker.sock \
@@ -142,7 +142,7 @@ The gateway enforces Bearer token authentication on all endpoints except `/healt
 - Clients send the token in the `Authorization` header:
 
 ```
-Authorization: Bearer your-token-here
+Authorization: Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
 ```
 
 To persist the same token across restarts, set `MCP_GATEWAY_AUTH_TOKEN` in your Unraid template or `.env` file.
@@ -186,7 +186,7 @@ servers:
     description: "My custom MCP tool"
     title: "Custom Server"
     type: "server"
-    image: "your-image:tag"
+    image: "my-org/custom-mcp-server:v1"
     env:
       - name: "API_KEY"
         value: "{{my-custom-server.api_key}}"
@@ -288,13 +288,13 @@ services:
     # ... existing gateway config ...
 
   my-local-server:
-    image: your-image:tag
+    image: my-org/custom-mcp-server:v1
     container_name: unraid-mcp-local
     restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
-      - API_KEY=your-key
+      - API_KEY=sk-custom-server-key-abc123
 ```
 
 **Connect your AI client to the companion directly:**
@@ -335,7 +335,7 @@ In `claude_desktop_config.json`:
     "Unraid_Gateway": {
       "url": "http://192.168.1.100:8811/mcp",
       "headers": {
-        "Authorization": "Bearer your-token-here"
+        "Authorization": "Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0"
       }
     }
   }
@@ -365,7 +365,7 @@ In `.vscode/mcp.json`:
     "Unraid_Gateway": {
       "url": "http://192.168.1.100:8811/mcp",
       "headers": {
-        "Authorization": "Bearer your-token-here"
+        "Authorization": "Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0"
       },
       "type": "sse"
     }
@@ -380,7 +380,7 @@ In `.vscode/mcp.json`:
 - **Name**: Unraid Gateway
 - **Type**: `url`
 - **URL**: `http://192.168.1.100:8811/mcp`
-- **Headers**: `{"Authorization": "Bearer your-token-here"}`
+- **Headers**: `{"Authorization": "Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0"}`
 
 ---
 
