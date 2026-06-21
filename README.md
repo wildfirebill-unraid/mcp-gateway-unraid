@@ -62,7 +62,7 @@ AI Client ──→ MCP Gateway (Unraid container, port 8811) ──→ MCP Serv
 - [Architecture](#architecture)
 - [Security](#security)
 - [Build from Source](#build-from-source)
-- [FAQ & Troubleshooting](#faq--troubleshooting)
+- [FAQ & Troubleshooting](#faq-troubleshooting)
 - [License](#license)
 
 ---
