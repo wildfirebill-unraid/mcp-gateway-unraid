@@ -11,7 +11,7 @@ on **Unraid** to let AI agents — Claude Desktop, VS Code, Cursor — securely 
 Docker-hosted MCP tools across your LAN.
 Built from [docker/mcp-gateway](https://github.com/docker/mcp-gateway).
 
-### Verified on Unraid
+## Verified on Unraid
 
 | Test | Result |
 |------|--------|
@@ -21,7 +21,7 @@ Built from [docker/mcp-gateway](https://github.com/docker/mcp-gateway).
 | Auth token auth | Bearer token required and enforced |
 | Streaming transport | SSE + HTTP POST — session-based bidirectional messaging |
 
-### Who Is This For
+## Who Is This For
 
 - **Unraid users** who want AI agent capabilities on their home server
 - **Self-hosters** looking for a local, private MCP gateway instead of cloud-based AI tool access
