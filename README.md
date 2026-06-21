@@ -26,7 +26,7 @@ AI Client ──→ MCP Gateway (Unraid container, port 8811) ──→ MCP Serv
 - [Quick Start](#quick-start)
 - [Features](#features)
 - [Installation](#installation)
-  - [Unraid Community Apps](#method-1-unraid-community-apps)
+  - [Download Template](#method-1-download-template-recommended-for-unraid)
   - [Docker Compose](#method-2-docker-compose)
   - [Manual Docker Run](#method-3-manual-docker-run)
 - [Configuration](#configuration)
@@ -82,20 +82,22 @@ curl -H "Authorization: Bearer mcp_gateway_token_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p
 - **🔌 Multiple transport modes** — `streaming` (recommended for LAN), `sse`, or `stdio`
 - **🛡️ Secrets isolation** — API keys stored in a mounted `.env` file, never in environment variables
 - **🧩 Dynamic catalog** — auto-pulls the Docker MCP catalog on start for discoverable tools
-- **🖥️ Unraid Community Apps** — one-click install via the Unraid template
+- **🖥️ Unraid ready** — download the XML template for one-click install (Community Apps listing coming soon)
 - **🏗️ Builds from source** — no dependency on Docker Hub availability
 
 ---
 
 ## Installation
 
-### Method 1: Unraid Community Apps (recommended)
+### Method 1: Download Template (recommended for Unraid)
 
-1. Add the template URL in **Community Apps** → **Template Repositories**
-2. Search for **MCPGateway** in the Apps list
-3. Click **Install**
-4. Configure your **Auth Token** (required for client access)
-5. Optionally set **MCP Servers** (default: `fetch,duckduckgo`)
+> **Community Apps listing coming soon.** For now, install via the XML template in this repo.
+
+1. Download the template: [`unraid/mcp-gateway-unraid.xml`](unraid/mcp-gateway-unraid.xml)
+2. In Unraid, go to **Docker → Add Container → Template → Add Template**
+3. Select the downloaded XML file
+4. Set your **Auth Token** (`MCP_GATEWAY_AUTH_TOKEN` — required)
+5. Click **Apply**
 
 ### Method 2: Docker Compose
 
