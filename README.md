@@ -23,6 +23,40 @@ Built from [docker/mcp-gateway](https://github.com/docker/mcp-gateway).
 | Auth token auth | Bearer token required and enforced |
 | Streaming transport | SSE + HTTP POST — session-based bidirectional messaging |
 
+<details>
+<summary><b>Gateway startup log</b></summary>
+
+```text
+- Reading profile configuration...
+  - Default profile not found, using empty configuration
+  - Loading 1 catalog(s) for dynamic tools
+    - Processing catalog 'mcp/docker-mcp-catalog:latest' with 313 servers
+  - Total servers loaded from all catalogs: 313
+- No server is enabled
+- Listing MCP tools...
+> 0 tools listed in 21.429µs
+- Adding internal tools (dynamic-tools feature enabled)
+  > mcp-find: tool for finding MCP servers in the catalog
+  > mcp-add: tool for adding MCP servers to the registry
+  > mcp-remove: tool for removing MCP servers from the registry
+  > code-mode: write code that calls other MCPs directly
+  > mcp-exec: execute tools that exist in the current session
+  > mcp-config-set: tool for setting configuration values for MCP servers
+  > mcp-create-profile: tool for creating or updating profiles with current gateway state
+  > mcp-activate-profile: tool for activating saved profiles
+  > mcp-discover: prompt for learning about dynamic server management
+- Watching for configuration updates...
+> Initialized in 270.152586ms
+> Start streaming server on port 8811
+> Gateway URL: http://localhost:8811/mcp
+> Use Bearer token from MCP_GATEWAY_AUTH_TOKEN environment variable
+Catalog mcp/docker-mcp-catalog:latest pulled
+- Client initialized test-client@1.0.0
+- Client initialized Zed@0.1.0 (4 connections)
+```
+
+</details>
+
 ## Who Is This For
 
 - **Unraid users** who want AI agent capabilities on their home server
