@@ -1,7 +1,7 @@
 # MCP Gateway for Unraid
 
 [![Docker build & publish](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/actions/workflows/docker-publish.yml)
-[![GitHub release](https://img.shields.io/github/v/release/wildfirebill-unraid/mcp-gateway-unraid)](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/releases)
+[![GitHub release](https://img.shields.io/github/v/tag/wildfirebill-unraid/mcp-gateway-unraid?label=release&sort=semver)](https://github.com/wildfirebill-unraid/mcp-gateway-unraid/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Run a [Model Context Protocol (MCP)](https://spec.modelcontextprotocol.io/) Gateway on **Unraid** to let AI agents — Claude Desktop, VS Code, Cursor, and any MCP-compatible client — securely access Docker-hosted MCP tools across your LAN. Built from the official [docker/mcp-gateway](https://github.com/docker/mcp-gateway) source.
